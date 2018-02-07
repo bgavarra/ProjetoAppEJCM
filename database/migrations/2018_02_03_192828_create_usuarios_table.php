@@ -19,7 +19,7 @@ class CreateUsuariosTable extends Migration
             $table->string('email')->unique();
             $table->string('telefone');
             $table->string('endereco');
-            $table->string('senha');
+            $table->string('senha')->bcrypt();
             $table->string('cpf');
             $table->year('data_nascimento');
             $table->string('categorias');

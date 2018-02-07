@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Usuario;
+use Illuminate\Support\Facades\Auth;
 
 class UsuarioController extends Controller
 {
@@ -47,7 +48,22 @@ class UsuarioController extends Controller
         $usuario->data_nascimento=$request->data_nascimento;
         $usuario->categorias=$request->categorias;
         $usuario->save();
-        return back;
+        return back();
+    }
+
+    public function storeArray(Array $data)
+    {
+        $usuario = new Usuario;
+        $usuario->nome=$data->nome;
+        $usuario->email=$data->email;
+        $usuario->telefone=$data->telefone;
+        $usuario->endereco=$data->endereco;
+        $usuario->senha=$data->senha;
+        $usuario->cpf=$data->cpf;
+        $usuario->data_nascimento=$data->data_nascimento;
+        $usuario->categorias=$data->categorias;
+        $usuario->save();
+        return back();
     }
 
     /**
@@ -56,11 +72,14 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+
+    public function showPerfil($request)
     {
-        // $usuario= Usuario::find()->where('categorias',{{$id}});
-        //
-        // return view('welcome'['usuario'=>$usuario]);
+
+        $usuario= Usuario::where(
+          'categorias', Auth::user()->categorias)->get();
+
+        return redirect('goPerfil')->with('id',$usuario->id);
 
     }
 
@@ -118,10 +137,14 @@ class UsuarioController extends Controller
     }
     public function goLogin()
     {
-      return view('teste');
+      return redirect('login');
     }
     public function goCadastro()
     {
-      return view('teste');
+      return view('cadastro');
+    }
+    public function goPerfil()
+    {
+      return view('home');
     }
 }

@@ -15,14 +15,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
 
 Route::get('/welcome','UsuarioController@goHome')->name('rotaHome');
 
-Route::get('/login','UsuarioController@goLogin')->name('rotaLogin');
-
 Route::get('/cadastro','UsuarioController@goCadastro')->name('rotaCadastro');
+
+Route::get('/perfil','UsuarioController@goPerfil')->name('rotaPerfil')->middleware('auth');
+
+Route::post('/perfil','UsuarioController@goPerfil')->name('rotaPerfil');
 
 Route::get('/teste','UsuarioController@goTest')->name('rotaTest');
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
